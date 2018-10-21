@@ -9,7 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 const val BOT_USERNAME = "simply_spamblocker_bot"
-const val BOT_TOKEN = "SECRETKEY"
+const val BOT_TOKEN = ""
+const val REGEXP_REMOVE = "t.me/joinchat/"
 const val USERID_ERRORREPORT = 142752811L
 const val USERID_LOG = 114892191L
 
@@ -29,11 +30,17 @@ class SpamBlockBot : TelegramLongPollingBot() {
             return
         }
 
-        if (!upd.message.hasText()) {
-            return
+        var isSpam = false
+
+        if (upd.message.hasText() && upd.message.text.contains(REGEXP_REMOVE)) {
+            isSpam = true
         }
 
-        if (!upd.message.text.contains("t.me/joinchat/")) {
+        if (upd.message.caption != null && upd.message.caption.contains(REGEXP_REMOVE)) {
+            isSpam = true
+        }
+
+        if (!isSpam) {
             return
         }
 
