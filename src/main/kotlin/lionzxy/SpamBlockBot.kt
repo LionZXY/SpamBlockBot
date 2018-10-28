@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 const val BOT_USERNAME = "simply_spamblocker_bot"
 const val BOT_TOKEN = ""
-const val REGEXP_REMOVE = "t.me/joinchat/"
+const val REGEXP_REMOVE = "t.me/"
 const val USERID_ERRORREPORT = 142752811L
 const val USERID_LOG = 114892191L
 
