@@ -10,13 +10,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 const val BOT_USERNAME = "simply_spamblocker_bot"
 const val BOT_TOKEN = ""
-const val REGEXP_REMOVE = "t.me/"
+const val CONTAINS_REMOVE = "t.me/"
 const val USERID_ERRORREPORT = 142752811L
 const val USERID_LOG = 114892191L
 
 fun main(args: Array<String>) {
     ApiContextInitializer.init()
-    val botsApi = TelegramBotsApi().apply { registerBot(SpamBlockBot()) }
+    val botsApi = TelegramBotsApi()
+    botsApi.registerBot(SpamBlockBot())
     println("All bot init!")
 }
 
@@ -32,12 +33,19 @@ class SpamBlockBot : TelegramLongPollingBot() {
 
         var isSpam = false
 
-        if (upd.message.hasText() && upd.message.text.contains(REGEXP_REMOVE)) {
+        if (upd.message.hasText() && upd.message.text.contains(CONTAINS_REMOVE)) {
             isSpam = true
         }
 
-        if (upd.message.caption != null && upd.message.caption.contains(REGEXP_REMOVE)) {
+        if (upd.message.caption != null && upd.message.caption.contains(CONTAINS_REMOVE)) {
             isSpam = true
+        }
+
+        if (upd.message.captionEntities != null) {
+            var spamCaption = upd.message.captionEntities.find { it.text.contains(CONTAINS_REMOVE) || it.url.contains(CONTAINS_REMOVE)}
+            if (spamCaption != null) {
+                isSpam = true
+            }
         }
 
         if (!isSpam) {
