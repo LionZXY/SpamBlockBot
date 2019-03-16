@@ -9,8 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 const val BOT_USERNAME = "simply_spamblocker_bot"
-const val BOT_TOKEN = ""
-const val CONTAINS_REMOVE = "t.me/"
+const val BOT_TOKEN = SecureConfig.BOT_TOKEN
 const val USERID_ERRORREPORT = 142752811L
 const val USERID_LOG = 114892191L
 
@@ -33,16 +32,16 @@ class SpamBlockBot : TelegramLongPollingBot() {
 
         var isSpam = false
 
-        if (upd.message.hasText() && upd.message.text.contains(CONTAINS_REMOVE)) {
+        if (upd.message.hasText() && containsSpam(upd.message.text)) {
             isSpam = true
         }
 
-        if (upd.message.caption != null && upd.message.caption.contains(CONTAINS_REMOVE)) {
+        if (upd.message.caption != null && containsSpam(upd.message.caption)) {
             isSpam = true
         }
 
         if (upd.message.captionEntities != null) {
-            var spamCaption = upd.message.captionEntities.find { it.text.contains(CONTAINS_REMOVE) || it.url.contains(CONTAINS_REMOVE)}
+            var spamCaption = upd.message.captionEntities.find { containsSpam(it.text) || containsSpam(it.url) }
             if (spamCaption != null) {
                 isSpam = true
             }
@@ -64,6 +63,9 @@ class SpamBlockBot : TelegramLongPollingBot() {
             val notifyErrorMessage = SendMessage().setChatId(USERID_ERRORREPORT).setText("Ошибка удаления сообщения: ${e.localizedMessage} в чате c id ${upd.message.chatId}: ${upd.message}")
             execute(notifyErrorMessage)
         }
+    }
 
+    private fun containsSpam(text: String): Boolean {
+        return text.contains("t.me/") || text.contains("t.cn/")
     }
 }

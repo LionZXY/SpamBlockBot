@@ -1,3 +1,5 @@
 .idea
 *.jar
 target
+/src/main/kotlin/lionzxy/SecureConfig.kt
+spambot.iml
