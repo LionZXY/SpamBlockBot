@@ -1,5 +1,5 @@
 .idea
 *.jar
 target
-/src/main/kotlin/lionzxy/SecureConfig.kt
 spambot.iml
+src/main/kotlin/lionzxy/SecureConfig.kt

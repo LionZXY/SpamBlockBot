@@ -41,7 +41,7 @@ class SpamBlockBot : TelegramLongPollingBot() {
         }
 
         if (upd.message.captionEntities != null) {
-            var spamCaption = upd.message.captionEntities.find { containsSpam(it.text) || containsSpam(it.url) }
+            var spamCaption = upd.message.captionEntities.find { containsSpam(it?.text) || containsSpam(it?.url) }
             if (spamCaption != null) {
                 isSpam = true
             }
@@ -65,7 +65,7 @@ class SpamBlockBot : TelegramLongPollingBot() {
         }
     }
 
-    private fun containsSpam(text: String): Boolean {
-        return text.contains("t.me/") || text.contains("t.cn/")
+    private fun containsSpam(text: String?): Boolean {
+        return text != null && (text.contains("t.me/") || text.contains("t.cn/"))
     }
 }
