@@ -22,6 +22,10 @@ object SpamBlocker {
 
         var isSpam = false
 
+        if (upd.message == null) {
+            return
+        }
+
         if (upd.message.hasText() && containsSpam(upd.message.text)) {
             isSpam = true
         }
