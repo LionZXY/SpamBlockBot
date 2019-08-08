@@ -12,7 +12,7 @@ val DENIED_NICKNAME = listOf("hoimsufa235", "kladov_oper", "klds_bot24", "restor
         "restoransamara", "restoranoren", "tribogabot", "lab05bot", "st_smr", "restorantlt", "BitCapitan",
         "durman001_bot", "NEWSinfinityshop_biz", "nurtime1", "udnewbot", "prtekb", "prtufablag",
         "prtorenorsk", "is_op", "oper_iso24", "pharmstd_chat",
-        "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd").map { it.toLowerCase() }.toHashSet()
+        "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd", "MDKLAD3", "Fiksik86", "cannabioz_cosmos", "BestModerator").map { it.toLowerCase() }.toHashSet()
 
 object SpamBlocker {
     public fun processUpd(upd: Update?, bot: SpamBlockBot) {

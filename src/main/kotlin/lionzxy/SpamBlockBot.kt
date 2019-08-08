@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
     ApiContextInitializer.init()
     val botsApi = TelegramBotsApi()
     botsApi.registerBot(SpamBlockBot())
+    botsApi.registerBot(AdminMentionBot())
     println("All bot init!")
 }
 
