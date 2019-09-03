@@ -84,7 +84,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>lionzxy.SpamBlockBotKt</mainClass>
+                                    <mainClass>lionzxy.MainKt</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

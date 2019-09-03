@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -jar spambot.jar |& tee -a spambot.log

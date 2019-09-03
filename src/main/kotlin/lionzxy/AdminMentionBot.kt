@@ -1,5 +1,7 @@
 package lionzxy
 
+import lionzxy.storage.Credentials
+import lionzxy.storage.CredentialsEnum
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
@@ -7,8 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Update
 class AdminMentionBot : TelegramLongPollingBot() {
     val triggerWord = listOf("@admin", "/admin")
 
-    override fun getBotUsername() = "tpmailru_bot"
-    override fun getBotToken() = SecureConfig.ADMIN_MENTION_TOKEN
+    override fun getBotUsername() = Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_USERNAME)
+    override fun getBotToken() = Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_TOKEN)
     override fun onUpdateReceived(update: Update?) {
         val msg = update?.message ?: return
         val text = msg.text ?: return
