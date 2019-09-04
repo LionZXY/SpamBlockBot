@@ -16,6 +16,8 @@ val DENIED_NICKNAME = listOf("hoimsufa235", "kladov_oper", "klds_bot24", "restor
         "prtorenorsk", "is_op", "oper_iso24", "pharmstd_chat",
         "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd", "MDKLAD3", "Fiksik86", "cannabioz_cosmos", "BestModerator").map { it.toLowerCase() }.toHashSet()
 
+val DENIED_URL = listOf("bit.ly", "t.me", "t.cn", "tinyurl.com")
+
 object SpamBlocker {
     val chatMap = HashMap<String, ListWithLimit<Message>>()
 
@@ -102,8 +104,7 @@ object SpamBlocker {
         if (text == null) {
             return false
         }
-        return text.contains("t.me/", true) || text.contains("t.cn/", true)
-                || text.contains("tinyurl.com", true)
+        return DENIED_URL.find { text.contains(it, true) } != null
                 || containsHydraSpam(text) || text.contains("графитчик", true)
     }
 
