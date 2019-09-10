@@ -82,7 +82,7 @@ object SpamBlocker {
             bot.execute(notifyDeleteMessage)
         } catch (e: Exception) {
             e.printStackTrace()
-            val notifyErrorMessage = SendMessage().setChatId(Credentials.get(CredentialsEnum.USERID_ERRORREPORT)).setText("Ошибка удаления сообщения: ${e.localizedMessage} в чате c id ${msg.chatId}: $msg")
+            val notifyErrorMessage = SendMessage().setChatId(Credentials.get(CredentialsEnum.USERID_ERRORREPORT)).setText("Ошибка удаления сообщения (${e.message}) в чате c id ${msg.chatId}: $msg")
             bot.execute(notifyErrorMessage)
         }
     }

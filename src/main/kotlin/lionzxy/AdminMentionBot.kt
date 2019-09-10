@@ -4,9 +4,12 @@ import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
 import org.telegram.telegrambots.bots.TelegramLongPollingBot
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
 import org.telegram.telegrambots.meta.api.objects.Update
+import java.util.concurrent.TimeUnit
 
 class AdminMentionBot : TelegramLongPollingBot() {
+    var lastMentionTimestamp = 0L;
     val triggerWord = listOf("@admin", "/admin")
 
     override fun getBotUsername() = Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_USERNAME)
@@ -16,6 +19,18 @@ class AdminMentionBot : TelegramLongPollingBot() {
         val text = msg.text ?: return
 
         val findWord = triggerWord.firstOrNull { text.startsWith(it) } ?: return
+
+        sendApiMethod(DeleteMessage(msg.chatId, msg.messageId))
+
+        val mentionTimeout = TimeUnit.MINUTES.toMillis(
+                Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_TIMEOUT_MINUTE).toLong())
+        val diff = System.currentTimeMillis() - lastMentionTimestamp
+        if (diff < mentionTimeout) {
+            println("Not call mention because mentionTimeout ($mentionTimeout) larger then diff $diff")
+            return
+        }
+
+        lastMentionTimestamp = System.currentTimeMillis()
 
         val message = SendMessage()
         message.chatId = msg.chatId.toString()
