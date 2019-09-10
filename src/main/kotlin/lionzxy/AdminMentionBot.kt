@@ -9,8 +9,8 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import java.util.concurrent.TimeUnit
 
 class AdminMentionBot : TelegramLongPollingBot() {
-    var lastMentionTimestamp = 0L;
-    val triggerWord = listOf("@admin", "/admin")
+    var lastMentionTimestamps = HashMap<Long, Long>() //chatId to timestamp
+    val triggerWord = listOf("/admin")
 
     override fun getBotUsername() = Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_USERNAME)
     override fun getBotToken() = Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_TOKEN)
@@ -20,17 +20,19 @@ class AdminMentionBot : TelegramLongPollingBot() {
 
         val findWord = triggerWord.firstOrNull { text.startsWith(it) } ?: return
 
+        println("Find word $findWord in $text")
+
         sendApiMethod(DeleteMessage(msg.chatId, msg.messageId))
 
         val mentionTimeout = TimeUnit.MINUTES.toMillis(
                 Credentials.get(CredentialsEnum.ADMIN_MENTION_BOT_TIMEOUT_MINUTE).toLong())
-        val diff = System.currentTimeMillis() - lastMentionTimestamp
+        val diff = System.currentTimeMillis() - (lastMentionTimestamps[msg.chatId] ?: 0L)
         if (diff < mentionTimeout) {
             println("Not call mention because mentionTimeout ($mentionTimeout) larger then diff $diff")
             return
         }
 
-        lastMentionTimestamp = System.currentTimeMillis()
+        lastMentionTimestamps[msg.chatId] = System.currentTimeMillis()
 
         val message = SendMessage()
         message.chatId = msg.chatId.toString()
