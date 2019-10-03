@@ -14,9 +14,9 @@ val DENIED_NICKNAME = listOf("hoimsufa235", "kladov_oper", "klds_bot24", "restor
         "restoransamara", "restoranoren", "tribogabot", "lab05bot", "st_smr", "restorantlt", "BitCapitan",
         "durman001_bot", "NEWSinfinityshop_biz", "nurtime1", "udnewbot", "prtekb", "prtufablag",
         "prtorenorsk", "is_op", "oper_iso24", "pharmstd_chat",
-        "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd", "MDKLAD3", "Fiksik86", "cannabioz_cosmos", "BestModerator").map { it.toLowerCase() }.toHashSet()
+        "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd", "MDKLAD3", "Fiksik86", "cannabioz_cosmos", "BestModerator", "qymyz07", "Oraku1").map { it.toLowerCase() }.toHashSet()
 
-val DENIED_URL = listOf("bit.ly", "t.me", "t.cn", "tinyurl.com", "autofleet.bz")
+val DENIED_URL = listOf("bit.ly", "t.me", "t.cn", "tinyurl.com", "autofleet.bz", "xinvst.com")
 
 object SpamBlocker {
     val chatMap = HashMap<String, ListWithLimit<Message>>()
