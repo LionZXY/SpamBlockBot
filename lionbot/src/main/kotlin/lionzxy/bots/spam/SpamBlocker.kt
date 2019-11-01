@@ -1,4 +1,4 @@
-package lionzxy
+package lionzxy.bots.spam
 
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
@@ -12,13 +12,13 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 val NICKNAME_REGEXP = "(^|\\s)/[a-zA-Z@\\d_]{1,255}|(^|\\s|\\()@[a-zA-Z\\d_]{1,32}|(^|\\s|\\()#[\\w.]+|(^|\\s)\\$[A-Z]{3,8}([ ,.]|$)".toRegex() //From https://github.com/DrKLO/Telegram/blob/e397bd9afdfd9315bf099f78a903f8754d297d7a/TMessagesProj/src/main/java/org/telegram/messenger/MessageObject.java#L2837
 val DENIED_NICKNAME = listOf("hoimsufa235", "kladov_oper", "klds_bot24", "restorantumen",
         "restoransamara", "restoranoren", "tribogabot", "lab05bot", "st_smr", "restorantlt", "BitCapitan",
-        "durman001_bot", "NEWSinfinityshop_biz", "nurtime1", "udnewbot", "prtekb", "prtufablag",
+        "durman001_bot", "NEWSinfinity        Group(188203694, \"3bea1d33be25f8509b5938890e9a9e93520258dc7bed35c073a1284f0c5b3651d9ce93414098d39ebd38d\")\nshop_biz", "nurtime1", "udnewbot", "prtekb", "prtufablag",
         "prtorenorsk", "is_op", "oper_iso24", "pharmstd_chat",
         "bgd_pharmstd", "msk_pharmstd", "krk_pharmstd", "rzn_pharmstd", "MDKLAD3", "Fiksik86", "cannabioz_cosmos",
-        "BestModerator", "qymyz07", "Oraku1", "dayhydra", "Hydrar4ever", "hydraday").map { it.toLowerCase() }.toHashSet()
+        "BestModerator", "qymyz07", "Oraku1", "dayhydra", "Hydrar4ever", "hydraday", "insideman_insider_bot").map { it.toLowerCase() }.toHashSet()
 
 val DENIED_URL = listOf("bit.ly", "t.me", "t.cn", "tinyurl.com", "autofleet.bz", "xinvst.com", "ton-gram.info",
-        "cutt.ly", "invst.xyz", "invest-777.site", "pro-invest.website")
+        "cutt.ly", "invst.xyz", "invest-777.site", "pro-invest.website", "insideman.tech")
 
 object SpamBlocker {
     val chatMap = HashMap<String, ListWithLimit<Message>>()

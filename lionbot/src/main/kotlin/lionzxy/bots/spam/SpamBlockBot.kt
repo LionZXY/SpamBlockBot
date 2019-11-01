@@ -1,4 +1,4 @@
-package lionzxy
+package lionzxy.bots.spam
 
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum

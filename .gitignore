@@ -2,4 +2,12 @@
 *.jar
 target
 spambot.iml
-src/main/kotlin/lionzxy/SecureConfig.kt
+lionbot/src/main/kotlin/lionzxy/SecureConfig.kt
+**/cred.properties
+**/prod_cred.properties
+res
+log
+build
+.gradle
+**/build
+**/log
