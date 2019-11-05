@@ -90,6 +90,8 @@ class VKIu4Bot {
 
         tgMessage.text = text
 
+        println("Try send: $tgMessage")
+
         Main.tgIu4Bot.execute(tgMessage)
         previousPeerId = fromId
         Main.tgIu4Bot.resetPrevMessage()
@@ -106,7 +108,7 @@ class VKIu4Bot {
 
             val user = api.invoke(usersGet).firstOrNull() ?: return "Unknown name"
 
-            val fullName = "${user.firstName} ${user.lastName}"
+            val fullName = "${user.firstName ?: ""} ${user.lastName ?: ""}"
             nameCache[authorId] = fullName
             return fullName
         } catch (e: Exception) {
