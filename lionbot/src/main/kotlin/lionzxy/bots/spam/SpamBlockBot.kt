@@ -22,6 +22,7 @@ class SpamBlockBot : TelegramLongPollingBot() {
         } catch (e: Exception) {
             execute(SendMessage(USERID_ERRORREPORT, "Писец, насяйника"))
             val stackTrace = StringWriter().apply { e.printStackTrace(PrintWriter(this)) }.toString()
+            e.printStackTrace()
             execute(SendMessage(USERID_ERRORREPORT, "$e\n$stackTrace"))
             execute(SendMessage(USERID_ERRORREPORT, "$upd"))
         }

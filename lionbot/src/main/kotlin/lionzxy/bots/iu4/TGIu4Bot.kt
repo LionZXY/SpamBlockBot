@@ -55,7 +55,7 @@ class TGIu4Bot : TelegramLongPollingBot() {
     private suspend fun uploadPhoto(tgFile: File, photoSize: PhotoSize) {
         val messageUploadServer = Main.vkIu4Bot.api.invoke(PhotosGetMessagesUploadServer())
         val bytes = URL(tgFile.getFileUrl(botToken)).openStream().use {
-            it.readAllBytes()
+            it.readBytes()
         }
         val requestBody = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("file", "${tgFile.filePath}.jpg",
@@ -66,7 +66,7 @@ class TGIu4Bot : TelegramLongPollingBot() {
     private fun onSimpleMessage(msg: Message) {
         val sendMessage = MessagesSend(0, Random().nextInt())
         var text = if (previousPeerId != msg.from.id) {
-            "${msg.from.firstName} ${msg.from.lastName} (${msg.from.userName})\n\n${msg.text}"
+            "${msg.from.firstName ?: ""} ${msg.from.lastName ?: ""} (${msg.from.userName})\n\n${msg.text}"
         } else {
             msg.text
         }

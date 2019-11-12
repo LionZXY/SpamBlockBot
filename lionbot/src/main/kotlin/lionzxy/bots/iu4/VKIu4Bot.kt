@@ -43,10 +43,14 @@ class VKIu4Bot {
             val groupChannel = groupLongPollEvents(api, Integer.valueOf(Credentials.get(CredentialsEnum.VK_IU4_ID)), 8)
 
             groupChannel.consumeEach {
-                if (it is MessageNew) {
-                    runBlocking {
-                        onNewMessage(it)
+                try {
+                    if (it is MessageNew) {
+                        runBlocking {
+                            onNewMessage(it)
+                        }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         }
