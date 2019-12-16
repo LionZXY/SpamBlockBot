@@ -18,7 +18,9 @@ enum class CredentialsEnum {
     VK_IU4_TOKEN,
     VK_IU4_ID,
     VK_IU4_CHATID,
-    ENVIRONMENT
+    ENVIRONMENT,
+    NINTENDO_NAME,
+    NINTENDO_TOKEN
 }
 
 object Credentials {
