@@ -30,16 +30,18 @@ class SwitchBot : TelegramLongPollingBot() {
         val msg = update.message ?: update.editedMessage ?: return
         val text = msg.text ?: return
 
+        if (getSw(msg, text)) {
+            return
+        }
         if (findSW(msg, text)) {
             return
         }
         if (findSwApply(msg, text)) {
             return
         }
-        getSw(msg, text)
     }
 
-    private fun getSw(msg: Message, text: String) {
+    private fun getSw(msg: Message, text: String): Boolean {
         val toSend = SendMessage()
         toSend.replyToMessageId = msg.messageId
         toSend.chatId = msg.chatId.toString()
@@ -72,10 +74,11 @@ class SwitchBot : TelegramLongPollingBot() {
             }
         }
         if (toOutput == null) {
-            return
+            return false
         }
         toSend.text = toOutput
         sendApiMethod(toSend)
+        return true
     }
 
     private fun findSW(msg: Message, text: String): Boolean {
@@ -107,7 +110,7 @@ class SwitchBot : TelegramLongPollingBot() {
             sendApiMethod(toSend)
             return true
         }
-        val user = requestMap[id]!!
+        val user = requestMap.remove(id)!!
         transaction {
             SwitchIdInformationDAO.deleteWhere { SwitchIdInformationDAO.id eq user.id }
             SwitchIdInformationDAO.insert {
