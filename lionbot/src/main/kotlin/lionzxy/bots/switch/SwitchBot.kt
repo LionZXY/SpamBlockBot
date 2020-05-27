@@ -45,12 +45,14 @@ class SwitchBot : TelegramLongPollingBot() {
         val toSend = SendMessage()
         toSend.replyToMessageId = msg.messageId
         toSend.chatId = msg.chatId.toString()
+        toSend.enableMarkdown(true)
+        toSend.disableWebPagePreview()
 
         var toOutput: String? = null
         if (text.startsWith("/getAll", true)) {
             transaction {
                 toOutput = SwitchIdInformation.all().map {
-                    val userNickName = if (it.nickname.isNullOrBlank().not()) " (@${it.nickname})" else ""
+                    val userNickName = if (it.nickname.isNullOrBlank().not()) " ([${it.nickname}](t.me/${it.nickname}))" else ""
                     "${it.firstName} ${it.lastName} $userNickName: ${it.sw}"
                 }.joinToString("\n")
             }

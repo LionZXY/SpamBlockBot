@@ -6,6 +6,8 @@ import lionzxy.bots.iu4.VKIu4Bot
 import lionzxy.bots.spam.SpamBlockBot
 import lionzxy.bots.switch.SwitchBot
 import lionzxy.bots.switch.SwitchIdInformationDAO
+import lionzxy.bots.technopark.TechnoparkBot
+import lionzxy.bots.technopark.api.TechnoparkUserDAO
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
 import org.jetbrains.exposed.sql.Database
@@ -27,14 +29,14 @@ fun main(args: Array<String>) {
     val botsApi = TelegramBotsApi()
     initDB()
     if (isDebug) {
-        botsApi.registerBot(SwitchBot())
+        botsApi.registerBot(TechnoparkBot())
         return
     }
     botsApi.registerBot(SwitchBot())
     botsApi.registerBot(SpamBlockBot())
     botsApi.registerBot(AdminMentionBot())
-    botsApi.registerBot(Main.tgIu4Bot)
-    Main.vkIu4Bot.init()
+    //botsApi.registerBot(Main.tgIu4Bot)
+    //Main.vkIu4Bot.init()
     println("All bot init!")
 }
 
@@ -43,6 +45,6 @@ private fun initDB() {
     TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE // Or Connection.TRANSACTION_READ_UNCOMMITTED
 
     transaction {
-        SchemaUtils.create(SwitchIdInformationDAO)
+        SchemaUtils.create(SwitchIdInformationDAO, TechnoparkUserDAO)
     }
 }

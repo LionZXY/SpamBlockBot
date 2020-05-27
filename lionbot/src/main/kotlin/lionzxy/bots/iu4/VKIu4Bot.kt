@@ -1,28 +1,27 @@
 package lionzxy.bots.iu4
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import lionzxy.Main
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
 import name.anton3.vkapi.client.GroupClient
-import name.anton3.vkapi.client.ktorClientFactory
 import name.anton3.vkapi.generated.messages.methods.MessagesSend
 import name.anton3.vkapi.generated.messages.objects.MessageAttachment
 import name.anton3.vkapi.generated.users.methods.UsersGet
 import name.anton3.vkapi.methods.callback.MessageNew
 import name.anton3.vkapi.methods.longpoll.groupLongPollEvents
 import name.anton3.vkapi.tokens.GroupToken
+import name.anton3.vkapi.transport.apacheClientFactory
+import name.anton3.vkapi.transport.defaultHttpAsyncClient
 import name.anton3.vkapi.vktypes.VkLang
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import java.util.*
 
 
-val clientFactory = ktorClientFactory(HttpClient(OkHttp))
+val clientFactory = apacheClientFactory(defaultHttpAsyncClient())
 val groupToken = GroupToken(Credentials.get(CredentialsEnum.VK_IU4_TOKEN))
 
 typealias VKMessage = name.anton3.vkapi.generated.messages.objects.Message
@@ -42,7 +41,7 @@ class VKIu4Bot {
         GlobalScope.launch {
             val groupChannel = groupLongPollEvents(api, Integer.valueOf(Credentials.get(CredentialsEnum.VK_IU4_ID)), 8)
 
-            groupChannel.consumeEach {
+            groupChannel.onEach {
                 try {
                     if (it is MessageNew) {
                         runBlocking {
@@ -57,7 +56,7 @@ class VKIu4Bot {
     }
 
     private suspend fun onNewMessage(message: MessageNew) {
-        val msg = message.attachment
+        val msg = message.attachment.message
 
         if (msg.text.isNotEmpty() && msg.text.startsWith("/chatid")) {
             val sendMessage = MessagesSend(null, Random().nextInt(), msg.peerId)
