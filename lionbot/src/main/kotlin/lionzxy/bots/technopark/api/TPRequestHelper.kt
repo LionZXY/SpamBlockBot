@@ -19,7 +19,7 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
 private const val RPS = 1
-typealias CheckNicknameListener = (result: Boolean) -> Unit
+typealias CheckNicknameListener = (result: TechnoparkUser?) -> Unit
 
 public class TPRequestHelper : Thread() {
     private val pendingMessage: BlockingQueue<Pair<User, CheckNicknameListener>> = LinkedBlockingQueue()
@@ -35,11 +35,11 @@ public class TPRequestHelper : Thread() {
         var message: Pair<User, CheckNicknameListener>? = pendingMessage.take()
         while (message != null) {
             message.second.invoke(internalCheckNickname(message.first))
-            message = pendingMessage.poll()
+            message = pendingMessage.take()
         }
     }
 
-    private fun internalCheckNickname(user: User): Boolean {
+    private fun internalCheckNickname(user: User): TechnoparkUser? {
         val diff = (lastTimeStamp + DELAY) - System.currentTimeMillis()
         if (diff > 0) {
             sleep(diff)
@@ -56,14 +56,14 @@ public class TPRequestHelper : Thread() {
         }
         lastTimeStamp = System.currentTimeMillis()
         if (tpUsers.isNullOrEmpty()) {
-            return false
+            return null
         }
 
         tpUsers?.forEach {
             addToInternalDatabase(user.id, user.userName, it)
         }
 
-        return tpUsers?.find { it.isAccessAllowed ?: false } != null
+        return tpUsers?.find { it.isAccessAllowed ?: false }
     }
 
     private fun addToInternalDatabase(tgUserId: Int, nickname: String, tpUser: TechnoparkUser) {

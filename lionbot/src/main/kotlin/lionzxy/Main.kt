@@ -1,6 +1,5 @@
 package lionzxy
 
-import lionzxy.bots.admin.AdminMentionBot
 import lionzxy.bots.iu4.TGIu4Bot
 import lionzxy.bots.iu4.VKIu4Bot
 import lionzxy.bots.spam.SpamBlockBot
@@ -34,7 +33,7 @@ fun main(args: Array<String>) {
     }
     botsApi.registerBot(SwitchBot())
     botsApi.registerBot(SpamBlockBot())
-    botsApi.registerBot(AdminMentionBot())
+    botsApi.registerBot(TechnoparkBot())
     //botsApi.registerBot(Main.tgIu4Bot)
     //Main.vkIu4Bot.init()
     println("All bot init!")
