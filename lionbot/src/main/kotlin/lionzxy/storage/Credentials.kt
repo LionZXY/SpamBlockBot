@@ -1,8 +1,5 @@
 package lionzxy.storage
 
-import java.io.File
-import java.util.*
-
 enum class CredentialsEnum {
     SPAM_BOT_TOKEN,
     USERID_ERRORREPORT,
@@ -23,31 +20,14 @@ enum class CredentialsEnum {
     TP_BOT_CHAT_LOG,
     ENVIRONMENT,
     NINTENDO_NAME,
-    NINTENDO_TOKEN
+    NINTENDO_TOKEN,
+    SERVER_DATABASE_URL,
+    SERVER_DATABASE_USER,
+    SERVER_DATABASE_PASSWORD
 }
 
 object Credentials {
-    private const val CRED_PROPS_PATH = "cred.properties"
-    private val properties = Properties()
-
-    init {
-        load()
-    }
-
-    public fun get(name: CredentialsEnum): String {
-        return properties.getProperty(name.name)
-    }
-
-    private fun load() {
-        val props = File(CRED_PROPS_PATH)
-        try {
-            props.inputStream().use {
-                properties.load(it)
-            }
-
-        } catch (e: Exception) {
-            println("Error while load bot properties (${props.absolutePath})")
-            e.printStackTrace()
-        }
+    fun get(name: CredentialsEnum): String {
+        return System.getenv(name.name)
     }
 }

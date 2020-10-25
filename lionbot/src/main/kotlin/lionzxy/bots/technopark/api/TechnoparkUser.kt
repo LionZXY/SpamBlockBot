@@ -1,10 +1,10 @@
 package lionzxy.bots.technopark.api
 
 import com.google.gson.annotations.SerializedName
-import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.LongEntity
 import org.jetbrains.exposed.dao.LongEntityClass
-import org.jetbrains.exposed.dao.LongIdTable
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.LongIdTable
 
 object TechnoparkUserDAO : LongIdTable("tp_user") {
         var tgUsername = text("tg_username").nullable()

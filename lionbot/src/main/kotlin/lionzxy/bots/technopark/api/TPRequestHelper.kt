@@ -1,15 +1,14 @@
 package lionzxy.bots.technopark.api
 
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.apache.Apache
-import io.ktor.client.features.ClientRequestException
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.client.request.get
+import io.ktor.client.*
+import io.ktor.client.engine.apache.*
+import io.ktor.client.features.*
+import io.ktor.client.features.json.*
+import io.ktor.client.request.*
 import kotlinx.coroutines.runBlocking
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
-import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.insertIgnore
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.telegram.telegrambots.meta.api.objects.User
@@ -69,7 +68,7 @@ public class TPRequestHelper : Thread() {
     private fun addToInternalDatabase(tgUserId: Int, nickname: String, tpUser: TechnoparkUser) {
         transaction {
             TechnoparkUserDAO.insertIgnore {
-                it[TechnoparkUserDAO.id] = EntityID(tpUser.id, TechnoparkUserDAO)
+                it[TechnoparkUserDAO.id] = EntityID<Long>(tpUser.id!!, TechnoparkUserDAO)
                 it[tgId] = tgUserId
                 it[tgUsername] = nickname
                 it[username] = tpUser.username

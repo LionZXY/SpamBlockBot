@@ -18,7 +18,6 @@ import org.telegram.telegrambots.meta.api.objects.Update
 import java.net.URL
 import java.util.*
 
-
 class TGIu4Bot : TelegramLongPollingBot() {
     var previousPeerId = -1
 

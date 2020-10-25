@@ -31,13 +31,12 @@ class VKIu4Bot {
     var previousPeerId = -1
     lateinit var api: GroupClient
 
-    init {
+
+    fun init() {
         runBlocking {
             api = clientFactory.group(groupToken)
         }
-    }
 
-    fun init() {
         GlobalScope.launch {
             val groupChannel = groupLongPollEvents(api, Integer.valueOf(Credentials.get(CredentialsEnum.VK_IU4_ID)), 8)
 

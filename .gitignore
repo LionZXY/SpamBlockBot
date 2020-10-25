@@ -1,4 +1,5 @@
 .idea
+!gradle/wrapper/gradle-wrapper.jar
 *.jar
 target
 spambot.iml

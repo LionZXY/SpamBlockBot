@@ -2,7 +2,7 @@ package lionzxy.bots.switch
 
 import lionzxy.storage.Credentials
 import lionzxy.storage.CredentialsEnum
-import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction

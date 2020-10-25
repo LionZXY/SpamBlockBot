@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  postgresdb:
+    image: postgres:13
+    restart: unless-stopped
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 123456
+
+  bots:
+    container_name: bots
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - postgresdb
+    environment:
+      SERVER_DATABASE_USER: postgres
+      SERVER_DATABASE_URL: jdbc:postgresql://postgresdb/postgres?characterEncoding=utf8&useUnicode=true
+      SERVER_DATABASE_PASSWORD: 123456

@@ -54,16 +54,18 @@ dependencies {
     compile "io.ktor:ktor-server-netty:$ktor_version"
     compile "io.ktor:ktor-client-json:$ktor_version"
 
-
+    compile "org.jetbrains.exposed:exposed-core:$exposed_version"
+    compile "org.jetbrains.exposed:exposed-dao:$exposed_version"
+    compile "org.jetbrains.exposed:exposed-jdbc:$exposed_version"
+    compile "org.jetbrains.exposed:exposed-jodatime:$exposed_version"
+    compile "org.postgresql:postgresql:42.2.2"
+    compile "com.zaxxer:HikariCP:3.1.0"
 
     compile "com.squareup.okhttp3:okhttp:4.2.2"
     compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
     compile "io.ktor:ktor-client-okhttp:1.2.5"
     compile "org.telegram:telegrambots:4.8.1"
     compile "javax.annotation:javax.annotation-api:1.3.2"
-
-    compile 'org.jetbrains.exposed:exposed:+'
-    compile "org.xerial:sqlite-jdbc:+"
 
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:1.3.50"
     testCompile "junit:junit:4.12"
@@ -78,12 +80,6 @@ jar {
 
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
     }
 }
 

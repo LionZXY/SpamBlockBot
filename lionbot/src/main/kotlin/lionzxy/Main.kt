@@ -1,5 +1,7 @@
 package lionzxy
 
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import lionzxy.bots.iu4.TGIu4Bot
 import lionzxy.bots.iu4.VKIu4Bot
 import lionzxy.bots.spam.SpamBlockBot
@@ -39,8 +41,25 @@ fun main(args: Array<String>) {
     println("All bot init!")
 }
 
+private fun connectToDB() {
+    val url = Credentials.get(CredentialsEnum.SERVER_DATABASE_URL)
+    val user = Credentials.get(CredentialsEnum.SERVER_DATABASE_USER)
+    val password = Credentials.get(CredentialsEnum.SERVER_DATABASE_PASSWORD)
+    val connectionPoolSize = 10
+
+    val config = HikariConfig()
+    config.driverClassName = "org.postgresql.Driver"
+    config.jdbcUrl = url
+    config.username = user
+    config.password = password
+    config.maximumPoolSize = connectionPoolSize
+
+    Database.connect(HikariDataSource(config))
+}
+
+
 private fun initDB() {
-    Database.connect("jdbc:sqlite:local.db", driver = "org.sqlite.JDBC")
+    connectToDB()
     TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE // Or Connection.TRANSACTION_READ_UNCOMMITTED
 
     transaction {
