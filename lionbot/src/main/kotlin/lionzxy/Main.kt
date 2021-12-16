@@ -35,7 +35,7 @@ fun main(args: Array<String>) {
     }
     botsApi.registerBot(SwitchBot())
     botsApi.registerBot(SpamBlockBot())
-    botsApi.registerBot(TechnoparkBot())
+    //botsApi.registerBot(TechnoparkBot())
     //botsApi.registerBot(Main.tgIu4Bot)
     //Main.vkIu4Bot.init()
     println("All bot init!")
