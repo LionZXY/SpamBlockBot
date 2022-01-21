@@ -11,9 +11,9 @@ fun <T : Serializable?, Method : BotApiMethod<T>?> DefaultAbsSender.execute(meth
 }
 
 fun DefaultAbsSender.answer(msg: Message, text: String) {
-    execute(SendMessage().setChatId(msg.chatId)
-            .enableMarkdown(true)
-            .setText(text)
-            .disableWebPagePreview()
-            .setReplyToMessageId(msg.messageId))
+    execute(SendMessage.builder().chatId(msg.chatId.toString())
+        .text(text)
+        .disableWebPagePreview(true)
+        .replyToMessageId(msg.messageId)
+        .build().also { it.enableMarkdown(true) })
 }

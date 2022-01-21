@@ -6,12 +6,14 @@ import lionzxy.bots.utils.answer
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatAdministrators
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage
-import org.telegram.telegrambots.meta.api.objects.ChatMember
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.User
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember
 
-class AdminDelegate(val bot: TechnoparkBot,
-                    val chatId: Long) : IMessageDelegate {
+class AdminDelegate(
+    private val bot: TechnoparkBot,
+    private val chatId: Long
+) : IMessageDelegate {
     private var administrators: List<ChatMember>? = null
 
     override fun onMessage(msg: Message): Boolean {
@@ -22,19 +24,25 @@ class AdminDelegate(val bot: TechnoparkBot,
 
         if (text.startsWith("/admin")) {
             invalidateCache()
-            bot.execute(DeleteMessage().setChatId(msg.chatId).setMessageId(msg.messageId))
-            val adminText = "@" + administrators?.filter { !it.user.bot }
-                    ?.map { it.user.userName }
-                    ?.joinToString(" @")
-            bot.execute(SendMessage().setChatId(msg.chatId)
-                    .setText(adminText)
-                    .disableWebPagePreview())
+            bot.execute(DeleteMessage.builder().chatId(msg.chatId.toString()).messageId(msg.messageId).build())
+            val adminText = "@" + administrators?.filter { !it.user.isBot }?.joinToString(" @") { it.user.userName }
+            bot.execute(
+                SendMessage.builder().chatId(msg.chatId.toString())
+                    .text(adminText)
+                    .disableWebPagePreview(true)
+                    .build()
+            )
             return true
         }
 
         if (text.startsWith("/invalidate")) {
             invalidateCache()
-            bot.execute(DeleteMessage().setChatId(msg.chatId).setMessageId(msg.messageId))
+            bot.execute(
+                DeleteMessage.builder()
+                    .chatId(msg.chatId.toString())
+                    .messageId(msg.messageId)
+                    .build()
+            )
             return true
         }
 
@@ -89,14 +97,14 @@ class AdminDelegate(val bot: TechnoparkBot,
             invalidateCache()
         }
 
-        if (administrators?.find { it.user.id == this.id && (it.canRestrictMembers ?: false || it.status == "creator") } == null) {
-            return false
-        }
-        return true
+        //if (administrators?.find { it.user.id == this.id && (it ?: false || it.status == "creator") } == null) {
+        return false
+        //}
+        //return true
     }
 
-    public fun invalidateCache() {
-        administrators = bot.execute(GetChatAdministrators().setChatId(chatId))
+    private fun invalidateCache() {
+        administrators = bot.execute(GetChatAdministrators.builder().chatId(chatId.toString()).build())
         println("Admin cache invalidate")
     }
 }

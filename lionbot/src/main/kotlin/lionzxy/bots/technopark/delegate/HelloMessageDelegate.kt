@@ -14,9 +14,11 @@ private val WELCOME_MESSAGE_DELAY_MS = TimeUnit.MILLISECONDS.convert(
         Credentials.get(CredentialsEnum.TP_BOT_WELCOME_DELAY_S).toLong(),
         TimeUnit.SECONDS)
 
-class HelloMessageDelegate(val bot: TechnoparkBot,
-                           val chatId: Long,
-                           val technoparkRequestHelper: TPRequestHelper) : IMessageDelegate {
+class HelloMessageDelegate(
+    private val bot: TechnoparkBot,
+    private val chatId: Long,
+    private val technoparkRequestHelper: TPRequestHelper
+) : IMessageDelegate {
     private var lastWelcomeMessageTimestamp = 0L
     private var lastMessageFromBot = false
 
@@ -70,11 +72,13 @@ class HelloMessageDelegate(val bot: TechnoparkBot,
             return
         }
 
-        val message = SendMessage()
-        message.setChatId(chatId)
+        val message = SendMessage.builder()
+            .chatId(chatId.toString())
+            .disableWebPagePreview(true)
+            .text("Привет! Чтобы писать в чат, [подтверди ник](https://t.me/${bot.botUsername}?start).")
+            .build()
         message.enableMarkdown(true)
-        message.disableWebPagePreview()
-        message.setText("Привет! Чтобы писать в чат, [подтверди ник](https://t.me/${bot.botUsername}?start).")
+
         bot.execute(message)
         lastMessageFromBot = true
 

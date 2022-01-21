@@ -19,7 +19,7 @@ import java.net.URL
 import java.util.*
 
 class TGIu4Bot : TelegramLongPollingBot() {
-    var previousPeerId = -1
+    var previousPeerId = -1L
 
     override fun getBotUsername() = Credentials.get(CredentialsEnum.TG_IU4_NAME)
     override fun getBotToken(): String {

@@ -104,6 +104,6 @@ class TechnoparkBot : TelegramLongPollingBot() {
 
     public fun log(text: String) {
         val chatId = Credentials.get(CredentialsEnum.TP_BOT_CHAT_LOG)
-        execute(SendMessage().setText(text).setChatId(chatId))
+        execute(SendMessage.builder().text(text).chatId(chatId).build())
     }
 }

@@ -8,7 +8,7 @@ import org.jetbrains.exposed.dao.id.LongIdTable
 
 object TechnoparkUserDAO : LongIdTable("tp_user") {
         var tgUsername = text("tg_username").nullable()
-        var tgId = integer("tg_id").nullable()
+        var tgId = long("tg_id").nullable()
         val username = text("username").nullable()
         val profileLink = text("profile_link").nullable()
         val project = text("project").nullable()

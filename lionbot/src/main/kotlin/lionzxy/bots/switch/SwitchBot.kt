@@ -78,7 +78,7 @@ class SwitchBot : TelegramLongPollingBot() {
         if (toOutput == null) {
             return false
         }
-        toSend.text = toOutput
+        toSend.text = toOutput!!
         sendApiMethod(toSend)
         return true
     }

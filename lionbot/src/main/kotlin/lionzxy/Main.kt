@@ -15,8 +15,8 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.meta.TelegramBotsApi
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession
 import java.sql.Connection
 
 object Main {
@@ -25,9 +25,8 @@ object Main {
 }
 
 fun main(args: Array<String>) {
-    ApiContextInitializer.init()
     val isDebug = Credentials.get(CredentialsEnum.ENVIRONMENT).equals("DEBUG", true)
-    val botsApi = TelegramBotsApi()
+    val botsApi = TelegramBotsApi(DefaultBotSession::class.java)
     initDB()
     if (isDebug) {
         botsApi.registerBot(TechnoparkBot())
@@ -60,7 +59,8 @@ private fun connectToDB() {
 
 private fun initDB() {
     connectToDB()
-    TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE // Or Connection.TRANSACTION_READ_UNCOMMITTED
+    TransactionManager.manager.defaultIsolationLevel =
+        Connection.TRANSACTION_SERIALIZABLE // Or Connection.TRANSACTION_READ_UNCOMMITTED
 
     transaction {
         SchemaUtils.create(SwitchIdInformationDAO, TechnoparkUserDAO)

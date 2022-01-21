@@ -65,7 +65,7 @@ public class TPRequestHelper : Thread() {
         return tpUsers?.find { it.isAccessAllowed ?: false }
     }
 
-    private fun addToInternalDatabase(tgUserId: Int, nickname: String, tpUser: TechnoparkUser) {
+    private fun addToInternalDatabase(tgUserId: Long, nickname: String, tpUser: TechnoparkUser) {
         transaction {
             TechnoparkUserDAO.insertIgnore {
                 it[TechnoparkUserDAO.id] = EntityID<Long>(tpUser.id!!, TechnoparkUserDAO)
